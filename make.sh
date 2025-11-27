@@ -16,6 +16,6 @@ mv *a ..
 
 echo "Done"
 
-echo -e "\nYou can test this lib with test.sh or use it right now with -L. -lstring"
+echo -e "\nYou can use it right now with -L. -lstring"
 
-echo -e '\n(for Small-LibC users: prefered way is to run libc/mkobjs.sh and "ar rcs libc.a *o"'
+echo -e '\n(for Small-LibC users: prefered way is to run libc/mkobjs.sh and "ar rcs libc.a *o")'
