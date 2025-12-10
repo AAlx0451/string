@@ -1,205 +1,182 @@
 #include <stddef.h>
 
-static const char *const g_error_lookup_table[] = {
-        "Undefined error: 0",                        /*  0 - ENOERROR */
-        "Operation not permitted",                /*  1 - EPERM */
-        "No such file or directory",                /*  2 - ENOENT */
-        "No such process",                        /*  3 - ESRCH */
-        "Interrupted system call",                /*  4 - EINTR */
-        "Input/output error",                        /*  5 - EIO */
-        "Device not configured",                /*  6 - ENXIO */
-        "Argument list too long",                /*  7 - E2BIG */
-        "Exec format error",                        /*  8 - ENOEXEC */
-        "Bad file descriptor",                        /*  9 - EBADF */
-        "No child processes",                        /* 10 - ECHILD */
-        "Resource deadlock avoided",                /* 11 - EDEADLK */
-        "Cannot allocate memory",                /* 12 - ENOMEM */
-        "Permission denied",                        /* 13 - EACCES */
-        "Bad address",                                /* 14 - EFAULT */
-        "Block device required",                /* 15 - ENOTBLK */
-        "Resource busy",                        /* 16 - EBUSY */
-        "File exists",                                /* 17 - EEXIST */
-        "Cross-device link",                        /* 18 - EXDEV */
-        "Operation not supported by device",        /* 19 - ENODEV */
-        "Not a directory",                        /* 20 - ENOTDIR */
-        "Is a directory",                        /* 21 - EISDIR */
-        "Invalid argument",                        /* 22 - EINVAL */
-        "Too many open files in system",        /* 23 - ENFILE */
-        "Too many open files",                        /* 24 - EMFILE */
-        "Inappropriate ioctl for device",        /* 25 - ENOTTY */
-        "Text file busy",                        /* 26 - ETXTBSY */
-        "File too large",                        /* 27 - EFBIG */
-        "No space left on device",                /* 28 - ENOSPC */
-        "Illegal seek",                                /* 29 - ESPIPE */
-        "Read-only file system",                /* 30 - EROFS */
-        "Too many links",                        /* 31 - EMLINK */
-        "Broken pipe",                                /* 32 - EPIPE */
-
-/* math software */
-        "Numerical argument out of domain",        /* 33 - EDOM */
-        "Result too large",                        /* 34 - ERANGE */
-
-/* non-blocking and interrupt i/o */
-        "Resource temporarily unavailable",        /* 35 - EAGAIN */
-                                                /* 35 - EWOULDBLOCK */
-        "Operation now in progress",                /* 36 - EINPROGRESS */
-        "Operation already in progress",        /* 37 - EALREADY */
-
-/* ipc/network software -- argument errors */
-        "Socket operation on non-socket",        /* 38 - ENOTSOCK */
-        "Destination address required",                /* 39 - EDESTADDRREQ */
-        "Message too long",                        /* 40 - EMSGSIZE */
-        "Protocol wrong type for socket",        /* 41 - EPROTOTYPE */
-        "Protocol not available",                /* 42 - ENOPROTOOPT */
-        "Protocol not supported",                /* 43 - EPROTONOSUPPORT */
-        "Socket type not supported",                /* 44 - ESOCKTNOSUPPORT */
-        "Operation not supported",                /* 45 - ENOTSUP */
-        "Protocol family not supported",        /* 46 - EPFNOSUPPORT */
-                                                /* 47 - EAFNOSUPPORT */
-        "Address family not supported by protocol family",
-        "Address already in use",                /* 48 - EADDRINUSE */
-        "Can't assign requested address",        /* 49 - EADDRNOTAVAIL */
-
-/* ipc/network software -- operational errors */
-        "Network is down",                        /* 50 - ENETDOWN */
-        "Network is unreachable",                /* 51 - ENETUNREACH */
-        "Network dropped connection on reset",        /* 52 - ENETRESET */
-        "Software caused connection abort",        /* 53 - ECONNABORTED */
-        "Connection reset by peer",                /* 54 - ECONNRESET */
-        "No buffer space available",                /* 55 - ENOBUFS */
-        "Socket is already connected",                /* 56 - EISCONN */
-        "Socket is not connected",                /* 57 - ENOTCONN */
-        "Can't send after socket shutdown",        /* 58 - ESHUTDOWN */
-        "Too many references: can't splice",        /* 59 - ETOOMANYREFS */
-        "Operation timed out",                        /* 60 - ETIMEDOUT */
-        "Connection refused",                        /* 61 - ECONNREFUSED */
-
-        "Too many levels of symbolic links",        /* 62 - ELOOP */
-        "File name too long",                        /* 63 - ENAMETOOLONG */
-
-/* should be rearranged */
-        "Host is down",                                /* 64 - EHOSTDOWN */
-        "No route to host",                        /* 65 - EHOSTUNREACH */
-        "Directory not empty",                        /* 66 - ENOTEMPTY */
-
-/* quotas & mush */
-        "Too many processes",                        /* 67 - EPROCLIM */
-        "Too many users",                        /* 68 - EUSERS */
-        "Disc quota exceeded",                        /* 69 - EDQUOT */
-
-/* Network File System */
-        "Stale NFS file handle",                /* 70 - ESTALE */
-        "Too many levels of remote in path",        /* 71 - EREMOTE */
-        "RPC struct is bad",                        /* 72 - EBADRPC */
-        "RPC version wrong",                        /* 73 - ERPCMISMATCH */
-        "RPC prog. not avail",                        /* 74 - EPROGUNAVAIL */
-        "Program version wrong",                /* 75 - EPROGMISMATCH */
-        "Bad procedure for program",                /* 76 - EPROCUNAVAIL */
-
-        "No locks available",                        /* 77 - ENOLCK */
-        "Function not implemented",                /* 78 - ENOSYS */
-        "Inappropriate file type or format",        /* 79 - EFTYPE */
-        "Authentication error",                        /* 80 - EAUTH */
-        "Need authenticator",                        /* 81 - ENEEDAUTH */
-
-        "Device power is off",                        /* 82 - EPWROFF */
-        "Device error",                         /* 83 - EDEVERR */
-        "Value too large to be stored in data type",        /* 84 - EOVERFLOW */
-
-/* program loading errors */
-        "Bad executable (or shared library)",   /* 85 - EBADEXEC */
-        "Bad CPU type in executable",                /* 86 - EBADARCH */
-        "Shared library version mismatch",        /* 87 - ESHLIBVERS */
-        "Malformed Mach-o file",                /* 88 - EBADMACHO */
-        "Operation canceled",                        /* 89 - ECANCELED */
-        "Identifier removed",                        /* 90 - EIDRM */
-        "No message of desired type",                /* 91 - ENOMSG */
-        "Illegal byte sequence",                /* 92 - EILSEQ */
-        "Attribute not found",                        /* 93 - ENOATTR */
-        "Bad message",                                /* 94 - EBADMSG */
-        "EMULTIHOP (Reserved)",                        /* 95 - EMULTIHOP */
-        "No message available on STREAM",        /* 96 - ENODATA */
-        "ENOLINK (Reserved)",                        /* 97 - ENOLINK */
-        "No STREAM resources",                        /* 98 - ENOSR */
-        "Not a STREAM",                                /* 99 - ENOSTR */
-        "Protocol error",                        /* 100 - EPROTO */
-        "STREAM ioctl timeout",                        /* 101 - ETIME */
-        "Operation not supported on socket",        /* 102 - EOPNOTSUPP */
-        "Policy not found",                        /* 103 - ENOPOLICY */
-        "State not recoverable",                /* 104 - ENOTRECOVERABLE */
-        "Previous owner died",                        /* 105 - EOWNERDEAD */
-
-        "Interface output queue is full",        /* 106 - EQFULL */
-};
-
-static const int TOTAL_ERRORS = sizeof(g_error_lookup_table) / sizeof(g_error_lookup_table[0]);
-
-static size_t 
-copy_string_safe(char *dest, const char *src, size_t max_chars) 
-{
-    size_t count = 0;
-    while (*src && count < max_chars - 1) {
-        *dest++ = *src++;
-        count++;
+static const char* resolve_err_text(int code) {
+    switch (code) {
+        case 0:   return "Success";
+        case 1:   return "Action prohibited";
+        case 2:   return "Entity not found";
+        case 3:   return "Process lookup failed";
+        case 4:   return "System call interrupted";
+        case 5:   return "I/O failure";
+        case 6:   return "Device not configured";
+        case 7:   return "Argument list too big";
+        case 8:   return "Invalid executable format";
+        case 9:   return "Invalid file descriptor";
+        case 10:  return "No child processes found";
+        case 11:  return "Deadlock prevented";
+        case 12:  return "Out of memory";
+        case 13:  return "Access forbidden";
+        case 14:  return "Invalid memory address";
+        case 15:  return "Block device required";
+        case 16:  return "Device in use";
+        case 17:  return "File already exists";
+        case 18:  return "Link across devices";
+        case 19:  return "Device does not support operation";
+        case 20:  return "Path is not a directory";
+        case 21:  return "Path is a directory";
+        case 22:  return "Invalid argument provided";
+        case 23:  return "System file limit reached";
+        case 24:  return "Process file limit reached";
+        case 25:  return "Inappropriate IOCTL";
+        case 26:  return "Executable file is busy";
+        case 27:  return "File size too large";
+        case 28:  return "No space on device";
+        case 29:  return "Illegal seek operation";
+        case 30:  return "Filesystem is read-only";
+        case 31:  return "Too many links";
+        case 32:  return "Broken pipe";
+        case 33:  return "Argument out of domain";
+        case 34:  return "Result out of range";
+        case 35:  return "Resource unavailable try again";
+        case 36:  return "Operation in progress";
+        case 37:  return "Operation currently proceeding";
+        case 38:  return "Not a socket";
+        case 39:  return "Dest address needed";
+        case 40:  return "Message too huge";
+        case 41:  return "Protocol wrong type";
+        case 42:  return "Protocol unavailable";
+        case 43:  return "Protocol unsupported";
+        case 44:  return "Socket type unsupported";
+        case 45:  return "Not supported";
+        case 46:  return "Protocol family unsupported";
+        case 47:  return "Addr family unsupported";
+        case 48:  return "Address in use";
+        case 49:  return "Cannot assign address";
+        case 50:  return "Network down";
+        case 51:  return "Network unreachable";
+        case 52:  return "Network reset connection";
+        case 53:  return "Connection aborted locally";
+        case 54:  return "Connection reset by peer";
+        case 55:  return "Buffer space exhausted";
+        case 56:  return "Socket connected";
+        case 57:  return "Socket not connected";
+        case 58:  return "Socket shutdown cannot send";
+        case 59:  return "Too many refs";
+        case 60:  return "Request timed out";
+        case 61:  return "Connection refused";
+        case 62:  return "Symlink loop detected";
+        case 63:  return "Filename too long";
+        case 64:  return "Host down";
+        case 65:  return "No route to host";
+        case 66:  return "Directory not empty";
+        case 67:  return "Process limit exceeded";
+        case 68:  return "User limit exceeded";
+        case 69:  return "Quota exceeded";
+        case 70:  return "Stale file handle";
+        case 71:  return "Remote path too deep";
+        case 72:  return "Bad RPC structure";
+        case 73:  return "RPC version mismatch";
+        case 74:  return "RPC program unavailable";
+        case 75:  return "Program version mismatch";
+        case 76:  return "Bad RPC procedure";
+        case 77:  return "No locks available";
+        case 78:  return "Not implemented";
+        case 79:  return "Wrong file type";
+        case 80:  return "Auth error";
+        case 81:  return "Auth required";
+        case 82:  return "Power off";
+        case 83:  return "Device error";
+        case 84:  return "Value overflow";
+        case 85:  return "Bad executable";
+        case 86:  return "Wrong CPU type";
+        case 87:  return "Library version mismatch";
+        case 88:  return "Corrupt Mach-O";
+        case 89:  return "Canceled";
+        case 90:  return "ID removed";
+        case 91:  return "No message";
+        case 92:  return "Illegal byte seq";
+        case 93:  return "Attr not found";
+        case 94:  return "Bad message";
+        case 95:  return "Reserved (EMULTIHOP)";
+        case 96:  return "No data on stream";
+        case 97:  return "Reserved (ENOLINK)";
+        case 98:  return "No stream resources";
+        case 99:  return "Not a stream";
+        case 100: return "Protocol error";
+        case 101: return "Stream timeout";
+        case 102: return "Op not supported on socket";
+        case 103: return "No policy";
+        case 104: return "Not recoverable";
+        case 105: return "Owner died";
+        case 106: return "Output queue full";
+        default:  return NULL;
     }
-    *dest = '\0';
-    return count;
 }
 
-static void
-generate_unknown_error_msg(int code, char *buffer, size_t buffer_len)
-{
-    const char *prefix_str = "Unknown error";
-    char number_buf[32];
-    unsigned int abs_val;
-    int digit_idx = sizeof(number_buf) - 1;
-    size_t current_len;
+static void util_strcpy(char *dst, const char *src, size_t cap) {
+    if (cap == 0) return;
     
-    number_buf[digit_idx] = '\0';
-    digit_idx--;
+    size_t i = 0;
+    while (src[i] != '\0' && i < cap - 1) {
+        dst[i] = src[i];
+        i++;
+    }
+    dst[i] = '\0';
+}
 
-    if (code >= 0) {
-        abs_val = (unsigned int)code;
-    } else {
-        abs_val = (unsigned int)(-code);
+static void format_unknown(int code, char *buf, size_t cap) {
+    const char *base_msg = "Unknown error: ";
+    size_t i = 0;
+    
+    while (base_msg[i] && i < cap - 1) {
+        buf[i] = base_msg[i];
+        i++;
+    }
+    
+    if (i >= cap - 1) {
+        buf[i] = '\0';
+        return;
     }
 
-    if (abs_val == 0) {
-        number_buf[digit_idx--] = '0';
+    unsigned int val;
+    if (code < 0) {
+        buf[i++] = '-';
+        val = (unsigned int)(-code);
     } else {
-        while (abs_val > 0) {
-            number_buf[digit_idx--] = (abs_val % 10) + '0';
-            abs_val /= 10;
+        val = (unsigned int)code;
+    }
+
+    if (i >= cap - 1) { buf[i] = '\0'; return; }
+
+    char temp_num[32];
+    int t_idx = 0;
+    
+    if (val == 0) {
+        temp_num[t_idx++] = '0';
+    } else {
+        while (val > 0) {
+            temp_num[t_idx++] = (val % 10) + '0';
+            val /= 10;
         }
     }
 
-    if (code < 0) {
-        number_buf[digit_idx--] = '-';
+    while (t_idx > 0 && i < cap - 1) {
+        buf[i++] = temp_num[--t_idx];
     }
-
-    char *number_start = &number_buf[digit_idx + 1];
-
-    current_len = copy_string_safe(buffer, prefix_str, buffer_len);
-
-    if (current_len + 2 < buffer_len) {
-        buffer[current_len++] = ':';
-        buffer[current_len++] = ' ';
-        buffer[current_len] = '\0';
-    }
-
-    copy_string_safe(buffer + current_len, number_start, buffer_len - current_len);
+    
+    buf[i] = '\0';
 }
 
-char *
-strerror(int err_code)
-{
-    static char s_result_buffer[256];
-
-    if (err_code >= 0 && err_code < TOTAL_ERRORS) {
-        copy_string_safe(s_result_buffer, g_error_lookup_table[err_code], sizeof(s_result_buffer));
+char *strerror(int errnum) {
+    static char s_err_storage[256];
+    
+    const char *text = resolve_err_text(errnum);
+    
+    if (text) {
+        util_strcpy(s_err_storage, text, sizeof(s_err_storage));
     } else {
-        generate_unknown_error_msg(err_code, s_result_buffer, sizeof(s_result_buffer));
+        format_unknown(errnum, s_err_storage, sizeof(s_err_storage));
     }
-
-    return s_result_buffer;
+    
+    return s_err_storage;
 }
