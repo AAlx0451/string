@@ -39,4 +39,4 @@ It's recommended to write it yourselves, because general header will include all
 
 ## Licence
 
-MIT. Just use it :)
+Unlicense. Just use it :)
