@@ -1,8 +1,8 @@
 char *strpbrk(const char *s, const char *accept) {
-    while (*s) {
+    while(*s) {
         const char *a = accept;
-        while (*a) {
-            if (*a++ == *s)
+        while(*a) {
+            if(*a++ == *s)
                 return (char *)s;
         }
         s++;
