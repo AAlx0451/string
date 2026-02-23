@@ -6,9 +6,9 @@ size_t strcspn(const char *s, const char *reject) {
     while(*p) {
         for(r = reject; *r; r++) {
             if(*p == *r)
-                return p - s;
+                return (size_t)(p - s);
         }
         p++;
     }
-    return p - s;
+    return (size_t)(p - s);
 }

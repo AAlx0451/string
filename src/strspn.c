@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdint.h>
 
 size_t strspn(const char *s, const char *accept) {
     const char *p = s;
@@ -9,8 +10,8 @@ size_t strspn(const char *s, const char *accept) {
                 break;
         }
         if(*a == '\0')
-            return p - s;
+            return (size_t)(p - s);
         p++;
     }
-    return p - s;
+    return (size_t)(p - s);
 }
