@@ -222,10 +222,10 @@ static const char *resolve_err_text(int code) {
 }
 
 static void util_strcpy(char *dst, const char *src, size_t cap) {
+    size_t i = 0;
     if(cap == 0)
         return;
 
-    size_t i = 0;
     while(src[i] != '\0' && i < cap - 1) {
         dst[i] = src[i];
         i++;
@@ -234,8 +234,11 @@ static void util_strcpy(char *dst, const char *src, size_t cap) {
 }
 
 static void format_unknown(int code, char *buf, size_t cap) {
+    unsigned int val;
     const char *base_msg = "Unknown error: ";
     size_t i = 0;
+    char temp_num[32];
+    int t_idx = 0;
 
     while(base_msg[i] && i < cap - 1) {
         buf[i] = base_msg[i];
@@ -247,7 +250,6 @@ static void format_unknown(int code, char *buf, size_t cap) {
         return;
     }
 
-    unsigned int val;
     if(code < 0) {
         buf[i++] = '-';
         val = (unsigned int)(-code);
@@ -259,9 +261,6 @@ static void format_unknown(int code, char *buf, size_t cap) {
         buf[i] = '\0';
         return;
     }
-
-    char temp_num[32];
-    int t_idx = 0;
 
     if(val == 0) {
         temp_num[t_idx++] = '0';
